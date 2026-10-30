@@ -7,7 +7,7 @@ echo ===========================================================================
 echo                   FULL STACK PRACTICAL LIBRARY MANAGER
 echo ===============================================================================
 echo.
-echo --- Practical Files (1-10) [Opens in Notepad] --------------------------------
+echo --- Practical Code Files (1-10) [Opens in Notepad] --------------------------
 echo   1. Practical_1_NodeJS_JavaScript_Basics.py.txt
 echo   2. Practical_2_JavaScript_Functions_Arrays_Objects.py.txt
 echo   3. Practical_3_React_Application_JSX_CSS_Components.py.txt
@@ -19,27 +19,31 @@ echo   8. Practical_8_API_Creation_and_Integration.py.txt
 echo   9. Practical_9_User_Data_Management.py.txt
 echo  10. Practical_10_Full_Stack_Execution_and_Validation.py.txt
 echo.
+echo --- Manual / Reference (11) [Opens as PDF] ---------------------------------
+echo  11. MERN manual .pdf
+echo.
 echo ===============================================================================
 echo   D. Download ALL files
 echo   Q. Quit
 echo ===============================================================================
 echo.
 
-set /p "choice=Enter your choice (1-10, D, or Q): "
+set /p "choice=Enter your choice (1-11, D, or Q): "
 
 if /i "%choice%"=="Q" exit
 if /i "%choice%"=="D" goto DOWNLOAD_ALL
 
-if "%choice%"=="1" set "FILE=Practical_1_NodeJS_JavaScript_Basics.py.txt" & goto PROCESS
-if "%choice%"=="2" set "FILE=Practical_2_JavaScript_Functions_Arrays_Objects.py.txt" & goto PROCESS
-if "%choice%"=="3" set "FILE=Practical_3_React_Application_JSX_CSS_Components.py.txt" & goto PROCESS
-if "%choice%"=="4" set "FILE=Practical_4_React_Components_Props_State_Events_Organized.txt" & goto PROCESS
-if "%choice%"=="5" set "FILE=Practical_5_React_Routing_Axios_Data_Handling.py.txt" & goto PROCESS
-if "%choice%"=="6" set "FILE=Practical_6_NodeJS_Express_Fundamentals.py.txt" & goto PROCESS
-if "%choice%"=="7" set "FILE=Practical_7_MongoDB_Compass_and_Mongoose_Connection.txt" & goto PROCESS
-if "%choice%"=="8" set "FILE=Practical_8_API_Creation_and_Integration.py.txt" & goto PROCESS
-if "%choice%"=="9" set "FILE=Practical_9_User_Data_Management.py.txt" & goto PROCESS
-if "%choice%"=="10" set "FILE=Practical_10_Full_Stack_Execution_and_Validation.py.txt" & goto PROCESS
+if "%choice%"=="1" set "FILE=Practical_1_NodeJS_JavaScript_Basics.py.txt" & set "TYPE=txt" & goto PROCESS
+if "%choice%"=="2" set "FILE=Practical_2_JavaScript_Functions_Arrays_Objects.py.txt" & set "TYPE=txt" & goto PROCESS
+if "%choice%"=="3" set "FILE=Practical_3_React_Application_JSX_CSS_Components.py.txt" & set "TYPE=txt" & goto PROCESS
+if "%choice%"=="4" set "FILE=Practical_4_React_Components_Props_State_Events_Organized.txt" & set "TYPE=txt" & goto PROCESS
+if "%choice%"=="5" set "FILE=Practical_5_React_Routing_Axios_Data_Handling.py.txt" & set "TYPE=txt" & goto PROCESS
+if "%choice%"=="6" set "FILE=Practical_6_NodeJS_Express_Fundamentals.py.txt" & set "TYPE=txt" & goto PROCESS
+if "%choice%"=="7" set "FILE=Practical_7_MongoDB_Compass_and_Mongoose_Connection.txt" & set "TYPE=txt" & goto PROCESS
+if "%choice%"=="8" set "FILE=Practical_8_API_Creation_and_Integration.py.txt" & set "TYPE=txt" & goto PROCESS
+if "%choice%"=="9" set "FILE=Practical_9_User_Data_Management.py.txt" & set "TYPE=txt" & goto PROCESS
+if "%choice%"=="10" set "FILE=Practical_10_Full_Stack_Execution_and_Validation.py.txt" & set "TYPE=txt" & goto PROCESS
+if "%choice%"=="11" set "FILE=MERN manual .pdf" & set "TYPE=pdf" & goto PROCESS
 
 goto MENU
 
@@ -62,7 +66,11 @@ if exist "%FILE%" (
         pause
         goto MENU
     )
-    start notepad "%FILE%"
+    if "%TYPE%"=="pdf" (
+        start "" "%FILE%"
+    ) else (
+        start notepad "%FILE%"
+    )
 ) else (
     echo.
     echo [X] ERROR: Could not download "%FILE%".
@@ -83,6 +91,7 @@ for %%f in (
     "Practical_8_API_Creation_and_Integration.py.txt"
     "Practical_9_User_Data_Management.py.txt"
     "Practical_10_Full_Stack_Execution_and_Validation.py.txt"
+    "MERN manual .pdf"
 ) do (
     if exist %%f (
         findstr /C:"404: Not Found" %%f >nul 2>&1 && del %%f
