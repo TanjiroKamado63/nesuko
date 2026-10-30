@@ -44,19 +44,34 @@ if "%choice%"=="10" set "FILE=Practical_10_Full_Stack_Execution_and_Validation.p
 goto MENU
 
 :PROCESS
+:: Always force-redownload if the local file contains the 404 error
+if exist "%FILE%" (
+    findstr /C:"404: Not Found" "%FILE%" >nul 2>&1 && del "%FILE%"
+)
+
+:: Download file if it doesn't exist locally
 if not exist "%FILE%" (
     curl -ksL "https://raw.githubusercontent.com/TanjiroKamado63/nesuko/main/%FILE%" -o "%FILE%" >nul 2>&1
 )
 
+:: Verify it's a valid file and not a 404 page
 if exist "%FILE%" (
-    for %%A in ("%FILE%") do if %%~zA LSS 10 del "%FILE%"
-)
-
-if exist "%FILE%" (
+    findstr /C:"404: Not Found" "%FILE%" >nul 2>&1
+    if not errorlevel 1 (
+        del "%FILE%"
+        echo.
+        echo [X] ERROR: File "%FILE%" returned 404 Not Found from GitHub.
+        echo Please check the exact filename in your 'nesuko' repository.
+        echo.
+        pause
+        goto MENU
+    )
     start notepad "%FILE%"
 ) else (
-    echo [!] Error: Could not fetch "%FILE%" from GitHub. Check filename/repository.
-    pause >nul
+    echo.
+    echo [X] ERROR: Could not download "%FILE%".
+    echo.
+    pause
 )
 goto MENU
 
@@ -73,6 +88,9 @@ for %%f in (
     "Practical_9_User_Data_Management.py.txt"
     "Practical_10_Full_Stack_Execution_and_Validation.py.txt"
 ) do (
+    if exist %%f (
+        findstr /C:"404: Not Found" %%f >nul 2>&1 && del %%f
+    )
     if not exist %%f (
         curl -ksL "https://raw.githubusercontent.com/TanjiroKamado63/nesuko/main/%%f" -o %%f >nul 2>&1
     )
