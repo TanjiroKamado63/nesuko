@@ -1,0 +1,222 @@
+PRACTICAL NO. 9 – USER DATA MANAGEMENT
+
+AIM
+a. Create an API to add user details using Express and MongoDB.
+b. Design a React form to send user data to the backend.
+c. Retrieve and display user data from MongoDB.
+d. Implement an update operation for existing records.
+e. Implement the delete operation for selected records.
+f. Display updated records dynamically in React.
+
+INSTALL REQUIRED PACKAGES
+
+npm install express mongoose cors
+
+
+FILE: server.js
+
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+// Connect MongoDB
+mongoose
+    .connect("mongodb://127.0.0.1:27017/userDB")
+    .then(() => console.log("MongoDB Connected"))
+    .catch((err) => console.log(err));
+
+// User Schema
+const userSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    age: Number
+});
+
+const User = mongoose.model("User", userSchema);
+
+// ADD USER
+app.post("/users", async (req, res) => {
+    const user = new User(req.body);
+    await user.save();
+
+    res.json(user);
+});
+
+// GET USERS
+app.get("/users", async (req, res) => {
+    const users = await User.find();
+    res.json(users);
+});
+
+// UPDATE USER
+app.put("/users/:id", async (req, res) => {
+    const user = await User.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true }
+    );
+
+    res.json(user);
+});
+
+// DELETE USER
+app.delete("/users/:id", async (req, res) => {
+    await User.findByIdAndDelete(req.params.id);
+
+    res.json({ message: "User deleted" });
+});
+
+// Start server
+app.listen(5000, () => {
+    console.log("Server running on port 5000");
+});
+
+
+FILE: App.jsx
+
+import { useEffect, useState } from "react";
+
+function App() {
+    const [users, setUsers] = useState([]);
+
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [age, setAge] = useState("");
+
+    const [editId, setEditId] = useState(null);
+
+    // GET USERS
+    const getUsers = async () => {
+        const response = await fetch("http://localhost:5000/users");
+        const data = await response.json();
+
+        setUsers(data);
+    };
+
+    // ADD / UPDATE USER
+    const saveUser = async (e) => {
+        e.preventDefault();
+
+        const userData = {
+            name: name,
+            email: email,
+            age: Number(age)
+        };
+
+        if (editId) {
+            // UPDATE
+            await fetch(`http://localhost:5000/users/${editId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(userData)
+            });
+
+            setEditId(null);
+        } else {
+            // ADD
+            await fetch("http://localhost:5000/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(userData)
+            });
+        }
+
+        clearForm();
+        getUsers();
+    };
+
+    // DELETE USER
+    const deleteUser = async (id) => {
+        await fetch(`http://localhost:5000/users/${id}`, {
+            method: "DELETE"
+        });
+
+        getUsers();
+    };
+
+    // EDIT USER
+    const editUser = (user) => {
+        setName(user.name);
+        setEmail(user.email);
+        setAge(user.age);
+        setEditId(user._id);
+    };
+
+    // CLEAR FORM
+    const clearForm = () => {
+        setName("");
+        setEmail("");
+        setAge("");
+    };
+
+    // Load users when page opens
+    useEffect(() => {
+        getUsers();
+    }, []);
+
+    return (
+        <div>
+            <h1>User Data Management</h1>
+
+            <form onSubmit={saveUser}>
+                <input
+                    type="text"
+                    placeholder="Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                />
+
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+
+                <input
+                    type="number"
+                    placeholder="Age"
+                    value={age}
+                    onChange={(e) => setAge(e.target.value)}
+                />
+
+                <button type="submit">
+                    {editId ? "Update User" : "Add User"}
+                </button>
+            </form>
+
+            <h2>User List</h2>
+
+            {users.map((user) => (
+                <div key={user._id}>
+                    <p>
+                        <b>{user.name}</b> - {user.email} - {user.age} years
+                    </p>
+
+                    <button onClick={() => editUser(user)}>
+                        Edit
+                    </button>
+
+                    <button onClick={() => deleteUser(user._id)}>
+                        Delete
+                    </button>
+                </div>
+            ))}
+        </div>
+    );
+}
+
+export default App;
+
+
+OUTPUT
+The React page displays a User Data Management form. Users can be added, displayed, edited and deleted. The data is stored in MongoDB database userDB. The backend runs on port 5000.

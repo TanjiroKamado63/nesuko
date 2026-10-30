@@ -1,0 +1,274 @@
+PRACTICAL NO. 10 – FULL STACK EXECUTION AND VALIDATION
+
+AIM
+a. Integrate React frontend with Node and Express backend.
+b. Perform insert, update, and delete operations through UI.
+c. Display database records dynamically in React.
+d. Implement frontend form validation.
+e. Test all APIs using Postman.
+f. Execute and verify the complete working of the frontend, backend, and database together.
+
+INSTALL REQUIRED PACKAGES
+
+npm install express mongoose cors
+
+
+FILE: server.js
+
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+
+// MongoDB connection
+mongoose
+    .connect("mongodb://127.0.0.1:27017/userDB")
+    .then(() => console.log("MongoDB Connected"))
+    .catch((err) => console.log(err));
+
+// User Schema
+const userSchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    age: Number
+});
+
+const User = mongoose.model("User", userSchema);
+
+// GET - Display users
+app.get("/users", async (req, res) => {
+    const users = await User.find();
+    res.json(users);
+});
+
+// POST - Add user
+app.post("/users", async (req, res) => {
+    const user = new User(req.body);
+    await user.save();
+
+    res.json(user);
+});
+
+// PUT - Update user
+app.put("/users/:id", async (req, res) => {
+    const user = await User.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true }
+    );
+
+    res.json(user);
+});
+
+// DELETE - Delete user
+app.delete("/users/:id", async (req, res) => {
+    await User.findByIdAndDelete(req.params.id);
+
+    res.json({ message: "User deleted successfully" });
+});
+
+// Start server
+app.listen(5000, () => {
+    console.log("Server running on port 5000");
+});
+
+
+FILE: App.jsx
+
+import { useEffect, useState } from "react";
+
+function App() {
+    const [users, setUsers] = useState([]);
+
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+    const [age, setAge] = useState("");
+
+    const [editId, setEditId] = useState(null);
+    const [error, setError] = useState("");
+
+    // Get users
+    const getUsers = async () => {
+        const response = await fetch("http://localhost:5000/users");
+        const data = await response.json();
+
+        setUsers(data);
+    };
+
+    // Form validation
+    const validateForm = () => {
+        if (name.trim() === "") {
+            setError("Name is required");
+            return false;
+        }
+
+        if (!email.includes("@")) {
+            setError("Enter a valid email");
+            return false;
+        }
+
+        if (age <= 0) {
+            setError("Age must be greater than 0");
+            return false;
+        }
+
+        setError("");
+        return true;
+    };
+
+    // Add or Update
+    const saveUser = async (e) => {
+        e.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
+
+        const userData = {
+            name: name,
+            email: email,
+            age: Number(age)
+        };
+
+        if (editId) {
+            // UPDATE
+            await fetch(`http://localhost:5000/users/${editId}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(userData)
+            });
+
+            setEditId(null);
+        } else {
+            // INSERT
+            await fetch("http://localhost:5000/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(userData)
+            });
+        }
+
+        clearForm();
+
+        // Refresh data dynamically
+        getUsers();
+    };
+
+    // Delete
+    const deleteUser = async (id) => {
+        await fetch(`http://localhost:5000/users/${id}`, {
+            method: "DELETE"
+        });
+
+        getUsers();
+    };
+
+    // Edit
+    const editUser = (user) => {
+        setName(user.name);
+        setEmail(user.email);
+        setAge(user.age);
+        setEditId(user._id);
+    };
+
+    // Clear form
+    const clearForm = () => {
+        setName("");
+        setEmail("");
+        setAge("");
+        setError("");
+    };
+
+    // Load users when page starts
+    useEffect(() => {
+        getUsers();
+    }, []);
+
+    return (
+        <div>
+            <h1>User Management</h1>
+
+            <form onSubmit={saveUser}>
+                <input
+                    type="text"
+                    placeholder="Name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                />
+
+                <br /><br />
+
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
+
+                <br /><br />
+
+                <input
+                    type="number"
+                    placeholder="Age"
+                    value={age}
+                    onChange={(e) => setAge(e.target.value)}
+                />
+
+                <br /><br />
+
+                <button type="submit">
+                    {editId ? "Update User" : "Add User"}
+                </button>
+
+                {error && <p style={{ color: "red" }}>{error}</p>}
+            </form>
+
+            <h2>Users</h2>
+
+            {users.map((user) => (
+                <div key={user._id}>
+                    <p>
+                        {user.name} | {user.email} | {user.age}
+                    </p>
+
+                    <button onClick={() => editUser(user)}>
+                        Edit
+                    </button>
+
+                    <button onClick={() => deleteUser(user._id)}>
+                        Delete
+                    </button>
+
+                    <hr />
+                </div>
+            ))}
+        </div>
+    );
+}
+
+export default App;
+
+
+FORM VALIDATION RULES SHOWN IN THE PRACTICAL
+
+1. If the name is empty, display: Name is required.
+2. If the email does not include @, display: Enter a valid email.
+3. If age is less than or equal to zero, display: Age must be greater than 0.
+
+API ROUTES
+
+GET    http://localhost:5000/users       – Display users
+POST   http://localhost:5000/users       – Add a user
+PUT    http://localhost:5000/users/:id   – Update a user
+DELETE http://localhost:5000/users/:id   – Delete a user
+
+OUTPUT
+The React page displays a User Management form with Name, Email and Age fields. It provides Add User/Update User, Edit and Delete operations. User records are retrieved from MongoDB and displayed dynamically. Validation messages appear when the entered data does not meet the conditions.

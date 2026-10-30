@@ -1,0 +1,92 @@
+PRACTICAL NO. 7 – MONGODB DATABASE OPERATIONS AND MONGOOSE CONNECTION
+
+SOURCE MATERIAL
+The practical PDF mainly contains MongoDB Compass screenshots and a final app.js code sample. The screenshots show creating/using the emp database, working with the e1 collection, inserting employee documents, viewing records, running find/projection/update/delete queries, and connecting to MongoDB through Mongoose.
+
+A. DATABASE AND COLLECTION
+
+Database name shown: emp
+Collection name shown: e1
+MongoDB connection address shown: mongodb://127.0.0.1:27017/emp
+
+B. INSERT DOCUMENT
+
+The Compass screenshot shows an employee document with these fields:
+- emp_nm
+- emp_desg
+- emp_sal
+
+Example document structure transcribed from the screenshot:
+
+{
+    "emp_nm": "A",
+    "emp_desg": "clerk",
+    "emp_sal": 34000
+}
+
+The screenshots also show other employee records with names A, B, C and D and designations such as clerk and manager. Some values/characters in the screenshots are not fully legible, so they are not reconstructed here.
+
+C. VIEW ALL DOCUMENTS
+
+MongoDB shell query shown in the screenshot:
+
+db.e1.find({},{})
+
+D. FIND DOCUMENTS WITH SELECTED FIELDS
+
+MongoDB shell query shown in the screenshot:
+
+db.e1.find({}, {"emp_nm": 1, "emp_desg": 1})
+
+E. UPDATE EMPLOYEE SALARIES
+
+MongoDB shell query shown in the screenshot:
+
+db.e1.updateMany(
+    {"emp_desg": "manager"},
+    {"$set": {"emp_sal": 80000}}
+)
+
+This updates the emp_sal field to 80000 for documents whose emp_desg is manager.
+
+F. DELETE DOCUMENTS
+
+The final screenshot shows a deleteMany query beginning with:
+
+db.e1.deleteMany({"emp_sal": ...
+
+The salary condition is cut off/not legible in the source image. Therefore, the complete delete condition cannot be reliably transcribed.
+
+G. CONNECT MONGODB USING MONGOOSE
+
+Install the packages:
+
+npm install mongoose mongodb
+
+
+File: app.js
+
+const mongoose = require('mongoose');
+
+// Connection URI to Mongoose
+const uri = 'mongodb://127.0.0.1:27017/emp';
+
+// Make database connection (Asynchronously)
+mongoose.connect(uri)
+    .then(result => {
+        console.log('Successful connection!!.....');
+    })
+    .catch(error => console.log(error));
+
+
+NOTE
+The source PDF's final app.js screenshot has some punctuation/characters that are not perfectly clear. The code above is formatted as valid JavaScript while preserving the shown connection URI and success/error handling.
+
+SCREENSHOT CONTENT CONVERTED TO TEXT
+1. MongoDB Compass is connected to localhost:27017.
+2. The emp database and e1 collection are used.
+3. Employee documents are inserted and displayed.
+4. The find query displays the collection records.
+5. A projection query displays employee name and designation fields.
+6. updateMany changes the salary of manager records.
+7. A deleteMany operation is demonstrated, but its filter value is unreadable in the screenshot.

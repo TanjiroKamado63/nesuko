@@ -1,0 +1,174 @@
+PRACTICAL NO. 3 – REACT APPLICATION, JSX, CSS AND COMPONENTS
+
+A. CREATE A REACT APPLICATION AND DISPLAY A WELCOME MESSAGE
+
+Terminal commands:
+npx create-react-app pract3app
+cd pract3app
+npm start
+
+The source practical mentions localhost:5173 in its instructions, while Create React App normally uses localhost:3000. Open the local address shown by the development server.
+
+File: src/App.js
+
+function App() {
+    return (
+        <div>
+            <h1>Welcome to MERN Stack Development</h1>
+        </div>
+    );
+}
+
+export default App;
+
+
+B. DISPLAY DYNAMIC DATA USING JSX
+
+File: src/App.js
+
+function App() {
+    const name = "Pooja";
+    const course = "MERN Stack Development";
+
+    return (
+        <div>
+            <h2>Hello, {name}</h2>
+            <p>Welcome to {course}</p>
+        </div>
+    );
+}
+
+export default App;
+
+
+C. CALCULATE THE SUM OF TWO NUMBERS USING A FUNCTION
+
+File: src/App.js
+
+function App() {
+    const num1 = 25;
+    const num2 = 15;
+
+    function calculateSum(a, b) {
+        return a + b;
+    }
+
+    return (
+        <div>
+            <h2>Sum Calculation</h2>
+            <p>Number 1: {num1}</p>
+            <p>Number 2: {num2}</p>
+            <p>Sum: {calculateSum(num1, num2)}</p>
+        </div>
+    );
+}
+
+export default App;
+
+
+D. APPLY BASIC CSS STYLING TO A REACT COMPONENT
+
+File: src/App.css
+
+.container {
+    text-align: center;
+    background-color: lightblue;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+}
+
+h1 {
+    color: navy;
+}
+
+p {
+    color: darkgreen;
+    font-size: 18px;
+}
+
+
+File: src/App.js
+
+import "./App.css";
+
+function App() {
+    return (
+        <div className="container">
+            <h1>React CSS Example</h1>
+            <p>This component is styled using CSS.</p>
+        </div>
+    );
+}
+
+export default App;
+
+
+E. CREATE A FUNCTIONAL COMPONENT AND RENDER IT IN APP.JS
+
+File: src/Greeting.jsx
+
+function Greeting() {
+    return (
+        <div>
+            <h2>Hello from Greeting Component!</h2>
+        </div>
+    );
+}
+
+export default Greeting;
+
+
+File: src/App.js
+
+import Greeting from "./Greeting";
+
+function App() {
+    return (
+        <div>
+            <h1>Main App Component</h1>
+            <Greeting />
+        </div>
+    );
+}
+
+export default App;
+
+
+F. DISPLAY CURRENT DATE AND TIME DYNAMICALLY
+
+File: src/DateTime.jsx
+
+function DateTime() {
+    const currentDate = new Date();
+
+    return (
+        <div>
+            <h2>Current Date and Time</h2>
+            <p>Date: {currentDate.toLocaleDateString()}</p>
+            <p>Time: {currentDate.toLocaleTimeString()}</p>
+        </div>
+    );
+}
+
+export default DateTime;
+
+
+File: src/App.js
+
+import DateTime from "./DateTime";
+
+function App() {
+    return (
+        <div>
+            <h1>Date and Time Example</h1>
+            <DateTime />
+        </div>
+    );
+}
+
+export default App;
+
+
+NOTE
+The original PDF shows the above examples as separate versions of App.js. Use the App.js code for the particular part you are practising. Do not paste all App.js versions into one file together because each version declares and exports an App component.

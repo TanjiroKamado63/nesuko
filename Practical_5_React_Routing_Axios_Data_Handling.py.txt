@@ -1,0 +1,170 @@
+PRACTICAL NO. 5 – REACT ROUTING AND DATA HANDLING
+
+AIM
+a. Install and configure React Router in the React application.
+b. Create multiple pages and implement navigation between them.
+c. Use Link and Routes to move between pages.
+d. Fetch sample data from a public API using Axios.
+e. Display fetched data in table or list format.
+f. Implement search or filter functionality on displayed data.
+
+PROJECT SETUP
+
+Run these commands in the terminal:
+
+1. npx create-react-app react-routing-app
+2. cd react-routing-app
+3. npm install react-router-dom axios
+4. npm start
+
+The application will open at:
+http://localhost:3000
+
+
+PROJECT STRUCTURE
+
+src/
+    App.js
+    pages/
+        Home.js
+        About.js
+        Users.js
+
+
+FILE: src/App.js
+
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+
+import Home from "./pages/Home";
+import About from "./pages/About";
+import Users from "./pages/Users";
+
+function App() {
+    return (
+        <BrowserRouter>
+            <div>
+                <nav>
+                    <ul style={{ display: "flex", gap: "20px" }}>
+                        <li>
+                            <Link to="/">Home</Link>
+                        </li>
+
+                        <li>
+                            <Link to="/about">About</Link>
+                        </li>
+
+                        <li>
+                            <Link to="/users">Users</Link>
+                        </li>
+                    </ul>
+                </nav>
+
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/users" element={<Users />} />
+                </Routes>
+            </div>
+        </BrowserRouter>
+    );
+}
+
+export default App;
+
+
+FILE: src/pages/Home.js
+
+function Home() {
+    return (
+        <div>
+            <h1>Home Page</h1>
+            <p>Welcome to React Router Demo</p>
+        </div>
+    );
+}
+
+export default Home;
+
+
+FILE: src/pages/About.js
+
+function About() {
+    return (
+        <div>
+            <h1>About Page</h1>
+            <p>This application demonstrates routing and API fetching.</p>
+        </div>
+    );
+}
+
+export default About;
+
+
+FILE: src/pages/Users.js
+
+import axios from "axios";
+import { useEffect, useState } from "react";
+
+function Users() {
+    const [users, setUsers] = useState([]);
+    const [search, setSearch] = useState("");
+
+    useEffect(() => {
+        axios
+            .get("https://jsonplaceholder.typicode.com/users")
+            .then((response) => {
+                setUsers(response.data);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    }, []);
+
+    const filteredUsers = users.filter((user) =>
+        user.name.toLowerCase().includes(search.toLowerCase())
+    );
+
+    return (
+        <div>
+            <h1>Users List</h1>
+
+            <input
+                type="text"
+                placeholder="Search User..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+            />
+
+            <table border="1" cellPadding="10">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>City</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {filteredUsers.map((user) => (
+                        <tr key={user.id}>
+                            <td>{user.id}</td>
+                            <td>{user.name}</td>
+                            <td>{user.email}</td>
+                            <td>{user.address.city}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
+}
+
+export default Users;
+
+
+OUTPUT SHOWN IN THE PRACTICAL
+
+The PDF includes browser screenshots showing the Home, About and Users navigation links and a Users List table. The table contains ID, Name, Email and City columns. The sample API returns users such as Leanne Graham, Ervin Howell and Clementine Bauch. A search field is displayed above the table.
+
+The screenshots are represented here as text descriptions because this file is a plain-text conversion.

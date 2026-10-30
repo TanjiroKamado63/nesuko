@@ -1,0 +1,121 @@
+PRACTICAL NO. 2 – JAVASCRIPT FUNCTIONS, ARRAYS AND OBJECTS
+
+SOURCE CODE
+
+A. CREATE FUNCTIONS AND CALL THEM WITH PARAMETERS
+
+// Function Declaration
+function greet(name) {
+    return "Hello, " + name + "!";
+}
+
+// Function Call
+console.log(greet("Alice"));
+console.log(greet("John"));
+
+
+B. WORK WITH ARRAYS IN JAVASCRIPT
+
+let fruits = ["Apple", "Banana", "Mango"];
+
+console.log(fruits[0]);
+
+fruits.push("Orange");
+
+console.log(fruits);
+
+
+C. DEMONSTRATE USE OF ARROW FUNCTIONS
+
+const add = (a, b) => {
+    return a + b;
+};
+
+console.log(add(10, 20));
+
+
+D. PROGRAM USING ARRAY METHODS (map, filter, reduce)
+
+let numbers = [10, 20, 30, 40, 50];
+
+// map()
+let doubled = numbers.map(num => num * 2);
+
+// filter()
+let greaterThan25 = numbers.filter(num => num > 25);
+
+// reduce()
+let total = numbers.reduce((sum, num) => sum + num, 0);
+
+console.log("Original:", numbers);
+console.log("Doubled:", doubled);
+console.log("Greater than 25:", greaterThan25);
+console.log("Sum:", total);
+
+
+E. OBJECT MANIPULATION AND DISPLAY OUTPUT
+
+let employee = {
+    id: 101,
+    name: "Amit",
+    department: "IT",
+    salary: 50000
+};
+
+// Update salary
+employee.salary = 60000;
+
+// Add new property
+employee.city = "Mumbai";
+
+// Delete department
+delete employee.department;
+
+console.log(employee);
+
+
+F. COMBINE FUNCTIONS, ARRAYS AND OBJECTS
+
+// Array of student objects
+const students = [
+    { name: "Alice", marks: 85 },
+    { name: "Bob", marks: 72 },
+    { name: "Charlie", marks: 90 },
+    { name: "David", marks: 65 }
+];
+
+// Function to calculate average marks
+const averageMarks = (students) => {
+    const total = students.reduce((sum, student) => sum + student.marks, 0);
+    return total / students.length;
+};
+
+// Function to find passed students
+const passedStudents = (students) => {
+    return students.filter(student => student.marks >= 75);
+};
+
+console.log("Average Marks:", averageMarks(students));
+
+console.log("Passed Students:");
+passedStudents(students).forEach(student => {
+    console.log(`${student.name} - ${student.marks}`);
+});
+
+
+OUTPUT
+
+Hello, Alice!
+Hello, John!
+Apple
+[ 'Apple', 'Banana', 'Mango', 'Orange' ]
+30
+Original: [ 10, 20, 30, 40, 50 ]
+Doubled: [ 20, 40, 60, 80, 100 ]
+Greater than 25: [ 30, 40, 50 ]
+Sum: 150
+{ id: 101, name: 'Amit', salary: 60000, city: 'Mumbai' }
+Average Marks: 78
+Passed Students:
+Alice - 85
+Charlie - 90

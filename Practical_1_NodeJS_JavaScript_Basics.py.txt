@@ -1,0 +1,132 @@
+PRACTICAL NO. 1 – NODE.JS AND JAVASCRIPT BASICS
+
+Aim:
+1. Create a simple Node.js file and run it using the terminal.
+2. Write a Node.js script demonstrating basic JavaScript commands (console.log, variables, and arithmetic operations).
+3. Create and run a simple program using variables and functions.
+4. Demonstrate the use of operators and control statements in JavaScript.
+5. Write programs using loops and template literals.
+
+HOW TO RUN
+1. Open the practical folder in Visual Studio Code.
+2. Create a file named practical1.js.
+3. Paste the required code into the file and save it.
+4. Open the terminal in VS Code.
+5. Run: node practical1.js
+
+Note: The source PDF also contains the PowerShell command `Set-ExecutionPolicy RemoteSigned`. This is a PowerShell execution-policy command, not JavaScript code. Use it only if required by your local PowerShell setup.
+
+PROGRAM 1 – CONSOLE OUTPUT, VARIABLES AND ARITHMETIC OPERATIONS
+
+// Console Output
+console.log("JavaScript Basics");
+
+// Variables
+let name = "Pooja";
+let age = 30;
+
+// Display variables
+console.log("Name:", name);
+console.log("Age:", age);
+
+// Arithmetic Operations
+let a = 15;
+let b = 5;
+
+console.log("Addition:", a + b);
+console.log("Subtraction:", a - b);
+console.log("Multiplication:", a * b);
+console.log("Division:", a / b);
+console.log("Modulus:", a % b);
+
+
+PROGRAM 2 – VARIABLES AND FUNCTIONS
+
+// Variables
+let num1 = 10;
+let num2 = 20;
+
+// Function Definition
+function add(x, y) {
+    return x + y;
+}
+
+// Function Call
+let result = add(num1, num2);
+console.log("Sum =", result);
+
+
+PROGRAM 3 – GREETING FUNCTION
+
+function greet(name) {
+    return `Welcome ${name}!`;
+}
+
+console.log(greet("Pooja"));
+
+
+PROGRAM 4 – OPERATORS
+
+let x = 12;
+let y = 4;
+
+console.log("Addition:", x + y);
+console.log("Greater Than:", x > y);
+console.log("Equal To:", x == y);
+console.log("Logical AND:", (x > 5 && y < 10));
+
+
+PROGRAM 5 – IF-ELSE STATEMENT
+
+let marks = 75;
+
+if (marks >= 40) {
+    console.log("Pass");
+} else {
+    console.log("Fail");
+}
+
+
+PROGRAM 6 – SWITCH STATEMENT
+
+let day = 3;
+
+switch(day) {
+    case 1:
+        console.log("Monday");
+        break;
+    case 2:
+        console.log("Tuesday");
+        break;
+    case 3:
+        console.log("Wednesday");
+        break;
+    default:
+        console.log("Invalid Day");
+}
+
+
+PROGRAM 7 – FOR LOOP
+
+for(let i = 1; i <= 5; i++) {
+    console.log(i);
+}
+
+
+PROGRAM 8 – WHILE LOOP
+
+let count = 1;
+
+while(count <= 5) {
+    console.log(count);
+    count++;
+}
+
+
+PROGRAM 9 – TEMPLATE LITERALS
+
+let student = "Pooja";
+let score = 90;
+
+console.log(`Student Name: ${student}`);
+console.log(`Score: ${score}`);
