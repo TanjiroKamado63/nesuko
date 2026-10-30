@@ -44,11 +44,23 @@ if "%choice%"=="10" set "FILE=Practical_10_Full_Stack_Execution_and_Validation.p
 goto MENU
 
 :PROCESS
+:: If file doesn't exist locally, download it
 if not exist "%FILE%" (
     curl -ksL "https://raw.githubusercontent.com/TanjiroKamado63/nesuko/main/%FILE%" -o "%FILE%" >nul 2>&1
 )
 
-start notepad "%FILE%"
+:: Verify the file actually downloaded successfully (size greater than 0 bytes and not a 404 page)
+if exist "%FILE%" (
+    for %%A in ("%FILE%") do if %%~zA LSS 10 del "%FILE%"
+)
+
+if exist "%FILE%" (
+    start notepad "%FILE%"
+) else (
+    echo [!] Error: Could not fetch "%FILE%" from GitHub. Check filename/repository.
+    pause
+>nul
+)
 goto MENU
 
 :DOWNLOAD_ALL
