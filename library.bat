@@ -11,10 +11,10 @@ echo --- Practical Files (1-10) [Opens in Notepad] -----------------------------
 echo   1. Practical_1_NodeJS_JavaScript_Basics.py.txt
 echo   2. Practical_2_JavaScript_Functions_Arrays_Objects.py.txt
 echo   3. Practical_3_React_Application_JSX_CSS_Components.py.txt
-echo   4. Practical_4_React_Components_Props_State_Events.py.txt
+echo   4. Practical_4_React_Components_Props_State_Events.txt
 echo   5. Practical_5_React_Routing_Axios_Data_Handling.py.txt
 echo   6. Practical_6_NodeJS_Express_Fundamentals.py.txt
-echo   7. Practical_7_MongoDB_Compass_and_Mongoose_Connection.py.txt
+echo   7. Practical_7_MongoDB_Compass_and_Mongoose_Connection.txt
 echo   8. Practical_8_API_Creation_and_Integration.py.txt
 echo   9. Practical_9_User_Data_Management.py.txt
 echo  10. Practical_10_Full_Stack_Execution_and_Validation.py.txt
@@ -33,10 +33,10 @@ if /i "%choice%"=="D" goto DOWNLOAD_ALL
 if "%choice%"=="1" set "FILE=Practical_1_NodeJS_JavaScript_Basics.py.txt" & goto PROCESS
 if "%choice%"=="2" set "FILE=Practical_2_JavaScript_Functions_Arrays_Objects.py.txt" & goto PROCESS
 if "%choice%"=="3" set "FILE=Practical_3_React_Application_JSX_CSS_Components.py.txt" & goto PROCESS
-if "%choice%"=="4" set "FILE=Practical_4_React_Components_Props_State_Events.py.txt" & goto PROCESS
+if "%choice%"=="4" set "FILE=Practical_4_React_Components_Props_State_Events.txt" & goto PROCESS
 if "%choice%"=="5" set "FILE=Practical_5_React_Routing_Axios_Data_Handling.py.txt" & goto PROCESS
 if "%choice%"=="6" set "FILE=Practical_6_NodeJS_Express_Fundamentals.py.txt" & goto PROCESS
-if "%choice%"=="7" set "FILE=Practical_7_MongoDB_Compass_and_Mongoose_Connection.py.txt" & goto PROCESS
+if "%choice%"=="7" set "FILE=Practical_7_MongoDB_Compass_and_Mongoose_Connection.txt" & goto PROCESS
 if "%choice%"=="8" set "FILE=Practical_8_API_Creation_and_Integration.py.txt" & goto PROCESS
 if "%choice%"=="9" set "FILE=Practical_9_User_Data_Management.py.txt" & goto PROCESS
 if "%choice%"=="10" set "FILE=Practical_10_Full_Stack_Execution_and_Validation.py.txt" & goto PROCESS
@@ -65,10 +65,10 @@ for %%f in (
     "Practical_1_NodeJS_JavaScript_Basics.py.txt"
     "Practical_2_JavaScript_Functions_Arrays_Objects.py.txt"
     "Practical_3_React_Application_JSX_CSS_Components.py.txt"
-    "Practical_4_React_Components_Props_State_Events.py.txt"
+    "Practical_4_React_Components_Props_State_Events.txt"
     "Practical_5_React_Routing_Axios_Data_Handling.py.txt"
     "Practical_6_NodeJS_Express_Fundamentals.py.txt"
-    "Practical_7_MongoDB_Compass_and_Mongoose_Connection.py.txt"
+    "Practical_7_MongoDB_Compass_and_Mongoose_Connection.txt"
     "Practical_8_API_Creation_and_Integration.py.txt"
     "Practical_9_User_Data_Management.py.txt"
     "Practical_10_Full_Stack_Execution_and_Validation.py.txt"
